@@ -708,7 +708,7 @@ def checkout(request):
                 cart.shipping_cost = 0
                 cart.save()
             address = 'Street Address'
-            city = 'eg. Maadi'
+            city = 'eg. Lucknow'
             last_governorate = None
             context = {'cart': CartItems, 'user_cart': cart,'last_governorate': last_governorate, 'city': city, 'address':address, 'governorates': governorates}
 
