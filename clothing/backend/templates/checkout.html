@@ -142,7 +142,7 @@ Checkout
                   <img src="{% static 'frontend/img/pay/cod.png'%}" width="20px" alt="Cash On Delivery" class="mr-2">
                   Cash On Delivery
                 </label>
-                <small class="form-text text-muted d-none">COD fees of EGP 12 will be applied.</small>
+                <small class="form-text text-muted d-none">COD fees of Rs. 12 will be applied.</small>
               </div>
             </div>
         </div>
@@ -159,17 +159,17 @@ Checkout
               <li>
                 <span class="translate-middle badge rounded-pill badge-light float-left">{{item.quantity}} </span>
                 . {{ item.product.product_name }}
-                <span>EGP {{item.total}}</span>
+                <span>Rs. {{item.total}}</span>
               </li>
               {% endfor %}
 
             </ul>
             <ul class="checkout__total__all">
               <div class="final-cart">
-                <li>Subtotal <span>EGP {{user_cart.total_price_before_discount}}</span></li>
+                <li>Subtotal <span>Rs. {{user_cart.total_price_before_discount}}</span></li>
                 <div class="d-flex justify-content-between">
                   <p class="mb-2">Discount:</p>
-                  <p id="discount" class="mb-2 text-danger">- EGP {{user_cart.discount}}</p>
+                  <p id="discount" class="mb-2 text-danger">- Rs. {{user_cart.discount}}</p>
                 </div>
                 <div class="d-flex justify-content-between">
                   <p class="mb-2">Shipping cost:</p>
@@ -177,18 +177,18 @@ Checkout
                   {% if user_cart.shipping_cost == 0 %}
                   <p class="mb-2">Free Shipping</p>
                   {% else %}
-                  <p class="mb-2">+ EGP {{user_cart.shipping_cost}}</p>
+                  <p class="mb-2">+ Rs. {{user_cart.shipping_cost}}</p>
                   {% endif %}
                 </div>
               </div>
               <hr />
               {% if user_cart.shipping_cost != 0 %}
               <div class="free-shipping">
-                Add items worth EGP {{ user_cart.shipping_remainder }} or more to your cart and get free shipping!
+                Add items worth Rs. {{ user_cart.shipping_remainder }} or more to your cart and get free shipping!
               </div>
               <hr />
               {% endif %}
-              <li>Total <span id="cart_total_discount">EGP {{user_cart.final_price}}</span></li>
+              <li>Total <span id="cart_total_discount">Rs. {{user_cart.final_price}}</span></li>
             </ul>
 
 
@@ -222,13 +222,13 @@ Checkout
         codFeesDiv.classList.add('d-flex', 'justify-content-between', 'cod-fees');
         codFeesDiv.innerHTML = `
               <p class="mb-2">COD fees:</p>
-              <p class="mb-2">+ EGP 12</p>
+              <p class="mb-2">+ Rs. 12</p>
             `;
         finalCart.appendChild(codFeesDiv);
 
         const cartTotalDiscount = document.querySelector('#cart_total_discount');
-        const cartTotalDiscountValue = parseFloat(cartTotalDiscount.textContent.replace('EGP ', ''));
-        cartTotalDiscount.textContent = `EGP ${(cartTotalDiscountValue + 12).toFixed(2)}`;
+        const cartTotalDiscountValue = parseFloat(cartTotalDiscount.textContent.replace('Rs. ', ''));
+        cartTotalDiscount.textContent = `Rs. ${(cartTotalDiscountValue + 12).toFixed(2)}`;
 
         codFeesApplied = true;
       } else if (codFeesApplied) {
@@ -238,8 +238,8 @@ Checkout
         }
 
         const cartTotalDiscount = document.querySelector('#cart_total_discount');
-        const cartTotalDiscountValue = parseFloat(cartTotalDiscount.textContent.replace('EGP ', ''));
-        cartTotalDiscount.textContent = `EGP ${(cartTotalDiscountValue - 12).toFixed(2)}`;
+        const cartTotalDiscountValue = parseFloat(cartTotalDiscount.textContent.replace('Rs. ', ''));
+        cartTotalDiscount.textContent = `Rs. ${(cartTotalDiscountValue - 12).toFixed(2)}`;
 
         codFeesApplied = false;
       }

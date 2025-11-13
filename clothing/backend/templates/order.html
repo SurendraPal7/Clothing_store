@@ -41,7 +41,7 @@ Order
                       <br>
                       <h5 class="bold ml-3">{{item.product.product_name}}</h5>
                       <p class="text-muted ml-3"> Qt: {{ item.quantity }} item</p>
-                      <h4 class="mb-3 ml-3"> EGP {{ item.price }} <span class="small text-muted"> via {{ order.get_payment_method_display }} </span></h4>
+                      <h4 class="mb-3 ml-3"> Rs. {{ item.price }} <span class="small text-muted"> via {{ order.get_payment_method_display }} </span></h4>
                       <p class="text-muted ml-3">Tracking Status on: <span class="text-body">11:30pm, Today</span></p>
                     </div>
                     <div>
@@ -126,7 +126,7 @@ Order
                     <p class="text-muted mb-0 small">Qty: 1</p>
                   </div>
                   <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">EGP {{ order.final_price }}</p>
+                    <p class="text-muted mb-0 small">Rs. {{ order.final_price }}</p>
                   </div>
                 </div>
                 <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
