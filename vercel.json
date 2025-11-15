@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "clothing/asgi.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "clothing/asgi.py"
+    }
+  ],
+  "env": {
+    "DJANGO_SETTINGS_MODULE": "clothing.settings",
+    "PYTHONUNBUFFERED": "1"
+  }
+}

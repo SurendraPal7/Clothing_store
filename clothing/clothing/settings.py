@@ -152,3 +152,12 @@ EMAIL_HOST_USER = 'vosmos.in@gmail.com'
 EMAIL_HOST_PASSWORD = 'liip fsbd lbrh mxkt'
 
 EMAIL_USE_SSL = False
+MIDDLEWARE = [
+    "django.middleware.security.SecurityMiddleware",
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    ...
+]
+
+STATIC_URL = "/static/"
+STATIC_ROOT = BASE_DIR / "staticfiles"
+

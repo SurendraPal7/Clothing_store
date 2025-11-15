@@ -34,4 +34,6 @@ urlpatterns = [
     path('images/<int:product_id>', views.update_images, name='update_images'),
     path('create_canvas_object/', views.create_canvas_object, name='create_canvas_object'),
     path('customized/<int:product_id>/', views.customized_view, name='customized_view'),
+    path("admin/dashboard/", include("backend.admin_urls")),
+
 ]

@@ -1,0 +1,70 @@
+{% extends "admin/base_site.html" %}
+{% block title %}Sales Dashboard{% endblock %}
+
+{% block content %}
+<h1>📊 Sales Analytics Dashboard</h1>
+
+<style>
+.card {
+    padding: 20px;
+    background: white;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px #ddd;
+}
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+</style>
+
+<div class="grid">
+    <div class="card">
+        <h2>Total Orders</h2>
+        <p style="font-size: 25px; font-weight: bold;">{{ total_orders }}</p>
+    </div>
+
+    <div class="card">
+        <h2>Total Revenue</h2>
+        <p style="font-size: 25px; font-weight: bold;">₹{{ total_revenue }}</p>
+    </div>
+
+    <div class="card">
+        <h2>Revenue This Month</h2>
+        <p style="font-size: 25px; font-weight: bold;">₹{{ monthly_revenue }}</p>
+    </div>
+</div>
+
+<div class="card">
+    <h2>Sales - Last 7 Days</h2>
+    <canvas id="salesChart"></canvas>
+</div>
+
+<div class="card">
+    <h2>Best Selling Products</h2>
+    <ul>
+    {% for p in best_products %}
+        <li>{{ p.product__name }} — {{ p.total_sold }} sold</li>
+    {% endfor %}
+    </ul>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+var ctx = document.getElementById('salesChart').getContext('2d');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ labels|safe }},
+        datasets: [{
+            label: "Revenue (Last 7 Days)",
+            data: {{ data|safe }},
+            borderWidth: 2,
+            fill: false
+        }]
+    }
+});
+</script>
+
+{% endblock %}

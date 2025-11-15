@@ -1,27 +1,42 @@
 from django.contrib import admin
 from django.db import models
 from django.contrib.auth.admin import UserAdmin
-from backend.models import Product, ProductSize, ProductColor, ProductImage, MyUser, PromoCode, Cart, Order, CartItem, OrderItem
+from django.urls import reverse
 from django.utils.html import format_html
 
-# Register your models here.
+from backend.models import (
+    Product, ProductSize, ProductColor, ProductImage,
+    MyUser, PromoCode, Cart, Order, CartItem, OrderItem
+)
+
+# ---------------------------
+# BASIC MODEL REGISTRATION
+# ---------------------------
+
 admin.site.register(CartItem)
 admin.site.register(MyUser)
 admin.site.register(PromoCode)
 admin.site.register(Cart)
-#admin.site.register(Design)
+
+
+# ---------------------------
+# PRODUCT ADMIN
+# ---------------------------
 
 class ProductSizeInline(admin.TabularInline):
     model = ProductSize
     extra = 1
 
+
 class ProductColorInline(admin.TabularInline):
     model = ProductColor
     extra = 1
 
+
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
     extra = 3
+
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductSizeInline, ProductImageInline]
@@ -29,12 +44,19 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category', 'label')
     search_fields = ('product_name',)
     filter_horizontal = ('category',)
+
     def get_categories(self, obj):
         return ", ".join([category.name for category in obj.category.all()])
+
     get_categories.short_description = 'Categories'
+
 
 admin.site.register(Product, ProductAdmin)
 
+
+# ---------------------------
+# ORDER + ORDER ITEMS ADMIN
+# ---------------------------
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
@@ -42,16 +64,25 @@ class OrderItemInline(admin.TabularInline):
     readonly_fields = ['product_image']
 
     def product_image(self, obj):
-        return format_html('<img src="{}" width="150" height="150" />', obj.product.image.url)
+        if obj.product and obj.product.image:
+            return format_html(
+                '<img src="{}" width="100" height="100" />',
+                obj.product.image.url
+            )
+        return "No Image"
+
     product_image.short_description = 'Product Image'
+
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
     readonly_fields = ('order_number',)
-    list_display = ['id', 'first_name', 'last_name', 'email', 'address', 'city', 'paid', 'created', 'updated']
+    list_display = ['id', 'first_name', 'last_name', 'email', 'address', 'city',
+                    'paid', 'created', 'updated']
     list_filter = ['paid', 'created', 'updated']
     search_fields = ['first_name', 'last_name', 'email']
     inlines = [OrderItemInline]
+
     fieldsets = (
         (None, {
             'fields': ('first_name', 'last_name', 'email', 'phone')
@@ -71,5 +102,20 @@ class OrderAdmin(admin.ModelAdmin):
         ('Payment and Shipping information', {
             'fields': ('shipping_cost', 'status')
         }),
- 
     )
+
+
+# ---------------------------
+# ADMIN DASHBOARD LINK
+# ---------------------------
+
+def dashboard_link():
+    return format_html(
+        '<a href="/admin/dashboard/" '
+        'style="font-size: 18px; font-weight:bold;">'
+        '📊 Open Sales Dashboard'
+        '</a>'
+    )
+
+
+admin.site.index_title = dashboard_link()
